@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: products
+  datasource:
+    url: jdbc:postgresql://localhost/products
+    username: postgres
+    password: admin
+  jpa:
+    generate_ddl: true
+    properties:
+      hibernate:
+        temp:
+          use_jdbc_metadata_defaults: false
+
+app:
+  jwtSecret: secret
+  jwtExpiration: 604800000
