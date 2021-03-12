@@ -15,3 +15,6 @@ spring:
 app:
   jwtSecret: secret
   jwtExpiration: 604800000
+server:
+  servlet:
+    context-path: /api

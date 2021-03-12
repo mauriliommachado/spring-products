@@ -31,6 +31,9 @@ public class User {
     @Size(min = 3, max = 50)
     private String username;
 
+    @NotBlank
+    private String phone;
+
     @NaturalId
     @NotBlank
     @Size(max = 50)
@@ -43,6 +46,8 @@ public class User {
     @NotNull
     private Role role;
 
+    @OneToMany(mappedBy="user")
+    private List<Address> addresses;
 
     public User() {
     }
@@ -100,5 +105,21 @@ public class User {
 
     public void setRole(final Role role) {
         this.role = role;
+    }
+
+    public List<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

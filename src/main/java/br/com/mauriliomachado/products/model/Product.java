@@ -1,12 +1,12 @@
 package br.com.mauriliomachado.products.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity(name = "products")
 public class Product {
@@ -19,9 +19,24 @@ public class Product {
     @Size(min = 3, max = 50)
     private String name;
 
-    private BigDecimal currentPrice;
+    private BigDecimal price;
 
     private long lastUpdate;
+
+    private String description;
+
+    private String url;
+
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
+    @JoinTable(name = "product_orders",
+            joinColumns = { @JoinColumn(name = "product_id") },
+            inverseJoinColumns = { @JoinColumn(name = "order_id") })
+    @JsonIgnore
+    private List<Order> orders;
 
     public Long getId() {
         return id;
@@ -39,12 +54,12 @@ public class Product {
         this.name = name;
     }
 
-    public BigDecimal getCurrentPrice() {
-        return currentPrice;
+    public BigDecimal getPrice() {
+        return price;
     }
 
-    public void setCurrentPrice(BigDecimal currentPrice) {
-        this.currentPrice = currentPrice;
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 
     public long getLastUpdate() {
@@ -53,5 +68,37 @@ public class Product {
 
     public void setLastUpdate(long lastUpdate) {
         this.lastUpdate = lastUpdate;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public List<Order> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<Order> orders) {
+        this.orders = orders;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public void updateProduct(Product product){
+        this.name = product.name;
+        this.price = product.price;
+        this.lastUpdate = System.currentTimeMillis();
+        this.description = product.description;
+        this.url = product.url;
     }
 }

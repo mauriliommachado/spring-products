@@ -14,7 +14,6 @@ public class ProductService {
     ProductRepository productRepository;
 
     public Product save(Product product) {
-        product.setLastUpdate(System.currentTimeMillis());
         return this.productRepository.save(product);
     }
 
